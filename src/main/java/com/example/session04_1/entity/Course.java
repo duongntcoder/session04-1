@@ -1,7 +1,8 @@
 package com.example.session04_1.entity;
 
 import jakarta.persistence.*;
-
+import java.util.ArrayList;
+import java.util.List;
 @Entity
 @Table(name = "courses")
 public class Course {
@@ -17,17 +18,18 @@ public class Course {
     @Column(nullable = false)
     private CourseStatus status;
 
-    @Column(nullable = false)
-    private Long instructorId;
+    @ManyToOne
+    @JoinColumn(name = "instructor_id", nullable = false)
+    private Instructor instructor;
 
     public Course() {
     }
 
-    public Course(Long id, String title, CourseStatus status, Long instructorId) {
+    public Course(Long id, String title, CourseStatus status, Instructor instructor) {
         this.id = id;
         this.title = title;
         this.status = status;
-        this.instructorId = instructorId;
+        this.instructor = instructor;
     }
 
     public Long getId() {
@@ -54,11 +56,21 @@ public class Course {
         this.status = status;
     }
 
-    public Long getInstructorId() {
-        return instructorId;
+    public Instructor getInstructor() {
+        return instructor;
     }
 
-    public void setInstructorId(Long instructorId) {
-        this.instructorId = instructorId;
+    public void setInstructor(Instructor instructor) {
+        this.instructor = instructor;
+    }
+
+    @OneToMany(mappedBy = "course")
+    private List<StudentEnrollment> enrollments = new ArrayList<>();
+    public List<StudentEnrollment> getEnrollments() {
+        return enrollments;
+    }
+
+    public void setEnrollments(List<StudentEnrollment> enrollments) {
+        this.enrollments = enrollments;
     }
 }

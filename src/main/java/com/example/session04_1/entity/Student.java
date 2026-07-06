@@ -4,25 +4,23 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 @Entity
-@Table(name = "instructors")
-public class Instructor {
-    @OneToMany(mappedBy = "instructor")
-    private List<Course> courses = new ArrayList<>();
+@Table(name = "students")
+public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 100)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(name = "email", nullable = false)
     private String email;
 
-    public Instructor() {
+    public Student() {
     }
 
-    public Instructor(Long id, String name, String email) {
+    public Student(Long id, String name, String email) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -51,11 +49,13 @@ public class Instructor {
     public void setEmail(String email) {
         this.email = email;
     }
-    public List<Course> getCourses() {
-        return courses;
+    @OneToMany(mappedBy = "student")
+    private List<StudentEnrollment> enrollments = new ArrayList<>();
+    public List<StudentEnrollment> getEnrollments() {
+        return enrollments;
     }
 
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
+    public void setEnrollments(List<StudentEnrollment> enrollments) {
+        this.enrollments = enrollments;
     }
 }
